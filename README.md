@@ -4,7 +4,7 @@
 
 ``` git clone https://github.com/YerkebulanYO/Online-Employee-Directory.git ```
 
-После скачивании переходим в папку One-Employee-Directory
+После скачивании переходим в папку One-Employee-Directory в терминале
 
 И после этого выводим эту команду в терминал:
 
