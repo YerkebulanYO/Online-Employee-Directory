@@ -32,7 +32,7 @@
 ## Решение. 
 Иерархия сотрудников состоит из 5 уровней. Intern, Junior, Middle, Senior, President. У каждого есть ФИО - full_name, должность - Position, дата приема на работу - employment_date, размер заработной платы - salary.
 
-<img src="/photo/snimok.png" >
+<img src="/Рабочий стол/photo/snimok.png" >
 
 ## Пункт 2.  
 
