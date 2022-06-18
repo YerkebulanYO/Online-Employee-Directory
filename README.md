@@ -28,7 +28,7 @@
 ○ Дата приема на работу;
 ○ Размер заработной платы;
 
-# Решение. Иерархия сотрудников состоит из 5 уровней. Intern, Junior, Middle, Senior, President. У каждого есть ФИО - full_name, должность - Position, дата приема на работу - employment_date, размер заработной платы - salary.
+- Решение. Иерархия сотрудников состоит из 5 уровней. Intern, Junior, Middle, Senior, President. У каждого есть ФИО - full_name, должность - Position, дата приема на работу - employment_date, размер заработной платы - salary.
 
 - Пункт 2.  
 
