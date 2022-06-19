@@ -33,7 +33,7 @@
 
 
 
-        <form method="POST">
+        <form method="POST" action="{% url 'list' %}">
             {% csrf_token %}
 
         <input type="search" placeholder="Employee ID" name="ID">
@@ -48,31 +48,31 @@
 
     <table style="width:100%">
 <tr>
-              <form method="get">
+              <form method="get" name="testing">
 
-                <th><a href="{% url 'list' %}?type=id&order=asc" type="submit" name="ID_sorting">ID</a>
-                <a href="{% url 'list' %}?type=id&order=desc" type="submit" name="ID_sorting">(наоборот)</a></th>
+                <th><a href="{% url 'list' %}?cat=id&order=asc" type="submit" name="ID_sorting">ID</a>
+                <a href="{% url 'list' %}?cat=id&order=desc" type="submit" name="ID_sorting">(наоборот)</a></th>
 
-                <th><a href="{% url 'list' %}?type=full_name&order=asc" type="submit" name=fullname_sorting">Full name</a>
-                <a href="{% url 'list' %}?type=full_name&order=desc" type="submit" name=fullname_sorting">(наоборот)</a></th>
+                <th><a href="{% url 'list' %}?cat=full_name&order=asc" type="submit" name=fullname_sorting">Full name</a>
+                <a href="{% url 'list' %}?cat=full_name&order=desc" type="submit" name=fullname_sorting">(наоборот)</a></th>
 
 
-                <th><a href="{% url 'list' %}?type=position&order=asc" type="submit" name=position_sorting">Position</a>
-                    <a href="{% url 'list' %}?type=position&order=desc" type="submit" name=position_sorting">(наоборот)</a></th>
+                <th><a href="{% url 'list' %}?cat=position&order=asc" type="submit" name=position_sorting">Position</a>
+                    <a href="{% url 'list' %}?cat=position&order=desc" type="submit" name=position_sorting">(наоборот)</a></th>
 
-                <th><a href="{% url 'list' %}?type=employment_date&order=asc" type="submit" name=employmentdate_sorting">Employment date</a>
-                <a href="{% url 'list' %}?type=employment_date&order=desc" type="submit" name=employmentdate_sorting">(наоборот)</a></th>
+                <th><a href="{% url 'list' %}?cat=employment_date&order=asc" type="submit" name=employmentdate_sorting">Employment date</a>
+                <a href="{% url 'list' %}?cat=employment_date&order=desc" type="submit" name=employmentdate_sorting">(наоборот)</a></th>
 
-                <th><a href="{% url 'list' %}?type=salary&order=asc" type="submit" name=salary_sorting">Salary</a>
-                    <a href="{% url 'list' %}?type=salary&order=desc" type="submit" name=salary_sorting">(наоборот)</a></th>
+                <th><a href="{% url 'list' %}?cat=salary&order=asc" type="submit" name=salary_sorting">Salary</a>
+                    <a href="{% url 'list' %}?cat=salary&order=desc" type="submit" name=salary_sorting">(наоборот)</a></th>
 
-                <th><a href="{% url 'list' %}?type=boss&order=asc" type="submit" name=boss_sorting">Boss</a>
-                    <a href="{% url 'list' %}?type=boss&order=desc" type="submit" name=boss_sorting">(наоборот)</a></th>
+                <th><a href="{% url 'list' %}?cat=boss&order=asc" type="submit" name=boss_sorting">Boss</a>
+                    <a href="{% url 'list' %}?cat=boss&order=desc" type="submit" name=boss_sorting">(наоборот)</a></th>
 
               </form>
           </tr>
 
-            {% for i in data %}
+            {% for i in page_obj %}
 
               <tr>
                 <td>{{ i.id }}</td>
@@ -86,6 +86,22 @@
 
             {% endfor %}
     </table>
+        {% if request.method == 'GET' %}
+          <span class="step-links">
+          {% if page_obj.has_previous %}
+              <h1><a href="?page={{ page_obj.previous_page_number }}{% if valid_type %}&valid_type={{ valid_type }}{% endif %}{% if valid_cat %}&valid_cat={{ valid_cat }}{% endif %}&{{ parameters }}">Previous</a></h1>
+          {% endif %}
+
+          <span class="current">
+              <h1><b>Page</b> {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</h1>
+          </span>
+
+          {% if page_obj.has_next %}
+              <h1><a href="?page={{ page_obj.next_page_number }}{% if valid_type %}&valid_type={{ valid_type }}{% endif %}{% if valid_cat %}&valid_cat={{ valid_cat }}{% endif %}&{{ parameters }}">Next</a></h1>
+          {% endif %}
+
+            </span>
+    {% endif %}
 
 
 
