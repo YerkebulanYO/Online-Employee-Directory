@@ -63,40 +63,50 @@ class ClientRegister(FormView):
 @login_required
 def employees_list(request):
     employees = Employee.objects.all()
-
+    valid_type = ''
+    valid_cat = ''
     if request.method == 'POST':
         if request.POST.get('ID') != '':
-            emp_id = request.POST.get('ID')
-            employees = employees.filter(pk=emp_id)
+            valid_cat = request.POST.get('ID')
+            employees = employees.filter(pk=valid_cat)
+            valid_type = 'ID'
 
         if request.POST.get('fullname') != '':
-            name = request.POST.get('fullname')
-            employees = employees.filter(full_name__icontains=name)
+            valid_cat = request.POST.get('fullname')
+            employees = employees.filter(full_name__icontains=valid_cat)
+            valid_type = 'fullname'
 
 
         if request.POST.get('pos') != '':
-            position = request.POST.get('pos')
-            employees = employees.filter(position=position)
+            valid_cat = request.POST.get('pos')
+            employees = employees.filter(position=valid_cat)
+            valid_type = 'pos'
 
 
         if request.POST.get('zp') != '':
-            salary = request.POST.get('zp')
-            employees = employees.filter(salary=salary)
+            valid_cat = request.POST.get('zp')
+            employees = employees.filter(salary=valid_cat)
+            valid_type = 'zp'
 
 
         if request.POST.get('employdate') != '':
-            date = request.POST.get('employdate')
-            employees = employees.filter(employment_date=date)
+            valid_cat = request.POST.get('employdate')
+            employees = employees.filter(employment_date=valid_cat)
+            valid_type = 'employdate'
 
 
         if request.POST.get('boss') != '':
-            boss = request.POST.get('boss')
-            employees = Employee.objects.filter(boss=boss)
+            valid_cat = request.POST.get('boss')
+            employees = Employee.objects.filter(boss=valid_cat)
+            valid_type = 'boss'
+
+        page_obj = employees
+        return render(request, 'base/list.html', {'page_obj': page_obj})
 
 
     elif request.method == 'GET':
         order = request.GET.get('order')
-        type_column = request.GET.get('type')
+        type_column = request.GET.get('cat')
 
         if order == 'desc':
             employees = employees.order_by(type_column).reverse()
@@ -104,4 +114,18 @@ def employees_list(request):
         elif order == 'asc':
             employees = employees.order_by(type_column)
 
-    return render(request, 'base/list.html', {'data': employees})
+
+        paginator = Paginator(employees, 100)
+        try:
+            page_obj = paginator.page(request.GET.get('page'))
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+
+
+        get_copy = request.GET.copy()
+        parameters = get_copy.pop('page', True) and get_copy.urlencode()
+
+        return render(request, 'base/list.html', {'page_obj': page_obj, 'data': employees, 'parameters': parameters})
+
